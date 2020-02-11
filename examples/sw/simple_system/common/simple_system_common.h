@@ -85,4 +85,7 @@ void timer_disable(void);
  */
 uint64_t get_elapsed_time(void);
 
+//DUMMY FUNCTIONS FOR DUMMY MODULE
+void dummy(uint32_t a, uint32_t b);
+
 #endif

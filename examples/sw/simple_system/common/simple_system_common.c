@@ -188,3 +188,17 @@ void simple_timer_handler(void) {
   increment_timecmp(time_increment);
   time_elapsed++;
 }
+
+//DUMMY FUNCTIONS FOR DUMMY MODULE
+
+void dummy(uint32_t a, uint32_t b){
+  DEV_WRITE(DUMMY_BASE + DUMMY_OP_A, a);
+  puthex(DEV_READ(DUMMY_BASE + DUMMY_OP_A, 0));
+  puts("\n");
+  DEV_WRITE(DUMMY_BASE + DUMMY_OP_B, b);
+  puthex(DEV_READ(DUMMY_BASE + DUMMY_OP_B, 0));
+  puts("\n");
+  puthex(DEV_READ(DUMMY_BASE + DUMMY_OP_C, 0));
+  puts("\n");
+
+}

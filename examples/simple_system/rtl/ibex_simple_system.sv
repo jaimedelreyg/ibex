@@ -13,7 +13,6 @@
  * simulators, a small amount of work may be required to support the
  * simulator_ctrl module.
  */
-
 module ibex_simple_system (
   input IO_CLK,
   input IO_RST_N
@@ -38,10 +37,11 @@ module ibex_simple_system (
   typedef enum {
     Ram,
     SimCtrl,
-    Timer
+    Timer,
+    Dummy
   } bus_device_e;
 
-  localparam NrDevices = 3;
+  localparam NrDevices = 4;
   localparam NrHosts = 1;
 
   // interrupts
@@ -77,6 +77,8 @@ module ibex_simple_system (
   assign cfg_device_addr_mask[SimCtrl] = ~32'h3FF; // 1 kB
   assign cfg_device_addr_base[Timer] = 32'h30000;
   assign cfg_device_addr_mask[Timer] = ~32'h3FF; // 1 kB
+  assign cfg_device_addr_base[Dummy] = 32'h40000;
+  assign cfg_device_addr_mask[Dummy] = ~32'h3FF; // 1 kB
 
   // Instruction fetch signals
   logic instr_req;
@@ -107,6 +109,7 @@ module ibex_simple_system (
   // Tie-off unused error signals
   assign device_err[Ram] = 1'b0;
   assign device_err[SimCtrl] = 1'b0;
+  assign device_err[Dummy] = 1'b0;
 
   bus #(
     .NrDevices    ( NrDevices ),
@@ -249,6 +252,20 @@ module ibex_simple_system (
       .timer_intr_o   (timer_irq)
     );
 
+  dummy #(
+    ) u_dummy (
+      .clk_i          (clk_sys),
+      .rst_ni         (rst_sys_n),
+
+      .dummy_req_i    (device_req[Dummy]),
+      .dummy_we_i     (device_we[Dummy]),
+      .dummy_be_i     (device_be[Dummy]),
+      .dummy_addr_i   (device_addr[Dummy]),
+      .dummy_wdata_i  (device_wdata[Dummy]),
+      .dummy_rvalid_o (device_rvalid[Dummy]),
+      .dummy_rdata_o  (device_rdata[Dummy])
+    );
+
   export "DPI-C" function mhpmcounter_get;
 
   function automatic longint mhpmcounter_get(int index);
@@ -256,3 +273,4 @@ module ibex_simple_system (
   endfunction
 
 endmodule
+

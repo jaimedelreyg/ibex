@@ -37,5 +37,10 @@ int main(int argc, char **argv) {
     asm volatile("wfi");
   }
 
+  //Dummy Bitwise OR
+  uint32_t a = 1;
+  uint32_t b = 2;
+  dummy(a,b);
+
   return 0;
 }

@@ -15,4 +15,10 @@
 #define TIMER_MTIMECMP 0x8
 #define TIMER_MTIMECMPH 0xC
 
+#define DUMMY_BASE 0x40000
+#define DUMMY_OP_A 0x0
+#define DUMMY_OP_B 0x8
+#define DUMMY_OP_C 0x10
+
+
 #endif  // SIMPLE_SYSTEM_REGS_H__
